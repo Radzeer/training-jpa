@@ -23,7 +23,12 @@ public class EmployeesService {
     private EmployeeMapper employeeMapper;
 
     public List<EmployeeDto> listEmployees(Optional<String> prefix) {
-     return employeeMapper.toDto(repository.findAll());
+        if (prefix.isEmpty()) {
+            return employeeMapper.toDto(repository.findAll());
+        }
+        else {
+            return employeeMapper.toDto(repository.findEmployeeByPrefix(prefix.get().toLowerCase() + "%"));
+        }
     }
 
     public EmployeeDetailsDto findEmployeeById(long id) {
