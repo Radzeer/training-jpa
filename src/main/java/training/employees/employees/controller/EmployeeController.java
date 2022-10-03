@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import training.employees.employees.dto.CreateEmployeeCommand;
-import training.employees.employees.dto.EmployeeDetailsDto;
-import training.employees.employees.dto.EmployeeDto;
-import training.employees.employees.dto.UpdateEmployeeCommand;
+import training.employees.employees.dto.*;
 import training.employees.employees.service.EmployeesService;
 
 import javax.validation.Valid;
@@ -62,4 +59,12 @@ public class EmployeeController {
         service.deleteEmployee(id);
     }
 
+    @PostMapping("{employeeId}/addresses")
+    public ResponseEntity createAddress(@PathVariable("employeeId") long employeeId, @Valid @RequestBody CreateAddressCommand command,
+                                        UriComponentsBuilder uri){
+        var address= service.createAddress(employeeId,command);
+        return ResponseEntity
+                .created(uri.path("/api/employees/{employeeId}/addresses/{addressId}").buildAndExpand(employeeId,address.getId()).toUri())
+                .body(address);
+    }
 }
