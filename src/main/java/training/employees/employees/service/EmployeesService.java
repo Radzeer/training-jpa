@@ -24,10 +24,10 @@ public class EmployeesService {
 
     public List<EmployeeDto> listEmployees(Optional<String> prefix) {
         if (prefix.isEmpty()) {
-            return employeeMapper.toDto(repository.findAll());
+            return repository.findEmployeeDtos();
         }
         else {
-            return employeeMapper.toDto(repository.findAllByNameLike(prefix.get().toLowerCase() + "%"));
+            return repository.findEmployeeDtosByNameLike(prefix.get().toLowerCase() + "%");
         }
     }
 
