@@ -27,7 +27,7 @@ public class EmployeesService {
             return employeeMapper.toDto(repository.findAll());
         }
         else {
-            return employeeMapper.toDto(repository.findEmployeeByPrefix(prefix.get().toLowerCase() + "%"));
+            return employeeMapper.toDto(repository.findAllByNameLike(prefix.get().toLowerCase() + "%"));
         }
     }
 

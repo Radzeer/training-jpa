@@ -10,4 +10,7 @@ import java.util.List;
 public interface EmployeesRepository extends JpaRepository<Employee,Long> {
     @Query("select e from Employee e where LOWER(e.name) like :prefix")
     List<Employee> findEmployeeByPrefix(String prefix);
+
+    //INFO: method név alapján elkészítia  qery-t
+    List<Employee> findAllByNameLike(String prefix);
 }
