@@ -67,4 +67,11 @@ public class EmployeeController {
                 .created(uri.path("/api/employees/{employeeId}/addresses/{addressId}").buildAndExpand(employeeId,address.getId()).toUri())
                 .body(address);
     }
+
+    @GetMapping("{employeeId}/addresses")
+    // @ResponseBody - nem kell kitenni, mert a @RestController minden metódusra
+    // automatikusan ráteszi
+    public List<AddressDto> listAddresses(@PathVariable("employeeId") long employeeId) {
+        return service.listAdresses(employeeId);
+    }
 }

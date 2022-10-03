@@ -7,6 +7,7 @@ import training.employees.employees.dto.EmployeeDto;
 import training.employees.employees.entity.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeesRepository extends JpaRepository<Employee,Long> {
     @Query("select e from Employee e where LOWER(e.name) like :prefix")
@@ -18,4 +19,9 @@ public interface EmployeesRepository extends JpaRepository<Employee,Long> {
     List<EmployeeDto> findEmployeeDtos();
     @Query("select new training.employees.employees.dto.EmployeeDto(e.id,e.name) from Employee e where e.name like :prefix")
     List<EmployeeDto> findEmployeeDtosByNameLike(String prefix);
+
+    @Query("select distinct e from Employee e left join fetch e.addresses where e.id = :id")
+    Optional<Employee> findEmployeeWithAdresses(long id);
+
+
 }

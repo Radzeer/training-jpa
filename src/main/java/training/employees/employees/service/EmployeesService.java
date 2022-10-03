@@ -60,4 +60,10 @@ public class EmployeesService {
         employee.addAddress(address);
         return employeeMapper.toDto(address);
     }
+
+    public List<AddressDto> listAdresses(long employeeId){
+        var employee = repository.findEmployeeWithAdresses(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: "+employeeId));
+        return employeeMapper.toAddressDto(employee.getAddresses());
+    }
 }
