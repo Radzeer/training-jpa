@@ -7,6 +7,7 @@ import training.employees.employees.dto.*;
 import training.employees.employees.repository.AddressesRepository;
 import training.employees.employees.repository.EmployeeNotFoundException;
 import training.employees.employees.repository.EmployeesRepository;
+import training.employees.gateway.AddressGateway;
 
 
 import java.util.List;
@@ -18,6 +19,8 @@ public class EmployeesService {
 
     private EmployeesRepository repository;
     private AddressesRepository addressesRepository;
+
+    private AddressGateway addressGateway;
 
     private EmployeeMapper employeeMapper;
 
@@ -31,8 +34,11 @@ public class EmployeesService {
     }
 
     public EmployeeDetailsDto findEmployeeById(long id) {
-      return employeeMapper.toDto(repository.findById(id)
+      var employeeDetails= employeeMapper.toDto(repository.findById(id)
                 .orElseThrow(()-> new EmployeeNotFoundException("Employee not found with id: "+id)));
+      employeeDetails.setAddress(employeeMapper.toSpecialAddressDto(addressGateway.findAddressByName(employeeDetails.getName())));
+      return employeeDetails;
+
     }
 
     public EmployeeDetailsDto createEmployee(CreateEmployeeCommand command) {
